@@ -204,12 +204,13 @@ char c = evt.getKeyChar();
     }//GEN-LAST:event_skalaTujuanComboBoxActionPerformed
 
     private void rbtnCtoFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnCtoFActionPerformed
- public void itemStateChanged(java.awt.event.ItemEvent evt) {
+public void itemStateChanged(java.awt.event.ItemEvent evt) {
         if (rbtnCtoF.isSelected()) {
             skalaAwalComboBox.setSelectedItem("Celcius");
             skalaTujuanComboBox.setSelectedItem("Fahrenheit");
         }
-    }        // TODO add your handling code here:
+    }
+});        // TODO add your handling code here:
     }//GEN-LAST:event_rbtnCtoFActionPerformed
 
     private void rbtnCtoFItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtnCtoFItemStateChanged
