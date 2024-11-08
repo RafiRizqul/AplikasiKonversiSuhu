@@ -6,12 +6,66 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author ACER
  */
 public class KonversiSuhuFrame extends javax.swing.JFrame {
+
+    void hitungSuhu() {
+        try {
+            double inputSuhu = Double.parseDouble(inputTextField.getText());
+            String skalaAwal = (String) skalaAwalComboBox.getSelectedItem();
+            double hasil = 0;
+            String skalaTujuan;
+
+            if (rbtnCelcius.isSelected()) {
+                skalaTujuan = "Celcius";
+            } else if (rbtnReamur.isSelected()) {
+                skalaTujuan = "Reamur";
+            } else if (rbtnKelvin.isSelected()) {
+                skalaTujuan = "Kelvin";
+            } else if (rbtnFahrenheit.isSelected()) {
+                skalaTujuan = "Fahrenheit";
+            } else {
+                JOptionPane.showMessageDialog(this, "Skala Akhir belum dipilih!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if ("Celcius".equals(skalaAwal) && "Fahrenheit".equals(skalaTujuan)) {
+                hasil = (inputSuhu * 9 / 5) + 32;
+            } else if ("Celcius".equals(skalaAwal) && "Kelvin".equals(skalaTujuan)) {
+                hasil = inputSuhu + 273.15;
+            } else if ("Celcius".equals(skalaAwal) && "Reamur".equals(skalaTujuan)) {
+                hasil = inputSuhu * 4 / 5;
+            } else if ("Fahrenheit".equals(skalaAwal) && "Celcius".equals(skalaTujuan)) {
+                hasil = (inputSuhu - 32) * 5 / 9;
+            } else if ("Fahrenheit".equals(skalaAwal) && "Kelvin".equals(skalaTujuan)) {
+                hasil = (inputSuhu - 32) * 5 / 9 + 273.15;
+            } else if ("Fahrenheit".equals(skalaAwal) && "Reamur".equals(skalaTujuan)) {
+                hasil = (inputSuhu - 32) * 4 / 9;
+            } else if ("Kelvin".equals(skalaAwal) && "Celcius".equals(skalaTujuan)) {
+                hasil = inputSuhu - 273.15;
+            } else if ("Kelvin".equals(skalaAwal) && "Fahrenheit".equals(skalaTujuan)) {
+                hasil = (inputSuhu - 273.15) * 9 / 5 + 32;
+            } else if ("Kelvin".equals(skalaAwal) && "Reamur".equals(skalaTujuan)) {
+                hasil = (inputSuhu - 273.15) * 4 / 5;
+            } else if ("Reamur".equals(skalaAwal) && "Celcius".equals(skalaTujuan)) {
+                hasil = inputSuhu * 5 / 4;
+            } else if ("Reamur".equals(skalaAwal) && "Fahrenheit".equals(skalaTujuan)) {
+                hasil = (inputSuhu * 9 / 4) + 32;
+            } else if ("Reamur".equals(skalaAwal) && "Kelvin".equals(skalaTujuan)) {
+                hasil = (inputSuhu * 5 / 4) + 273.15;
+            } else {
+                hasil = inputSuhu; // Jika skala awal dan tujuan sama
+            }
+            // Tambahkan rumus konversi lain sesuai skala yang dipilih
+
+            hasilLabel.setText("Hasil: " + hasil + " " + skalaTujuan);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Masukkan angka yang valid!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * Creates new form KonversiSuhuFrame
@@ -29,18 +83,25 @@ public class KonversiSuhuFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         inputTextField = new javax.swing.JTextField();
         skalaAwalComboBox = new javax.swing.JComboBox<>();
         konversiButton = new javax.swing.JButton();
         hasilLabel = new javax.swing.JLabel();
-        skalaTujuanComboBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        rbtnCtoF = new javax.swing.JRadioButton();
-        rbtnFtoC = new javax.swing.JRadioButton();
+        rbtnFahrenheit = new javax.swing.JRadioButton();
+        rbtnKelvin = new javax.swing.JRadioButton();
+        rbtnReamur = new javax.swing.JRadioButton();
+        rbtnCelcius = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        inputTextField.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                inputTextFieldCaretUpdate(evt);
+            }
+        });
         inputTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 inputTextFieldKeyTyped(evt);
@@ -58,28 +119,45 @@ public class KonversiSuhuFrame extends javax.swing.JFrame {
 
         hasilLabel.setText("Konversi Suhu");
 
-        skalaTujuanComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fahrenheit", "Celcius", "Reamur", "Kelvin", " " }));
-        skalaTujuanComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                skalaTujuanComboBoxActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Konversi ke");
 
-        rbtnCtoF.setText("jRadioButton1");
-        rbtnCtoF.addItemListener(new java.awt.event.ItemListener() {
+        buttonGroup1.add(rbtnFahrenheit);
+        rbtnFahrenheit.setSelected(true);
+        rbtnFahrenheit.setText("Fahrenheit");
+        rbtnFahrenheit.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                rbtnCtoFItemStateChanged(evt);
+                rbtnFahrenheitItemStateChanged(evt);
             }
         });
-        rbtnCtoF.addActionListener(new java.awt.event.ActionListener() {
+        rbtnFahrenheit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbtnCtoFActionPerformed(evt);
+                rbtnFahrenheitActionPerformed(evt);
             }
         });
 
-        rbtnFtoC.setText("jRadioButton2");
+        buttonGroup1.add(rbtnKelvin);
+        rbtnKelvin.setText("Kelvin");
+        rbtnKelvin.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbtnKelvinItemStateChanged(evt);
+            }
+        });
+
+        buttonGroup1.add(rbtnReamur);
+        rbtnReamur.setText("Reamur");
+        rbtnReamur.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbtnReamurItemStateChanged(evt);
+            }
+        });
+
+        buttonGroup1.add(rbtnCelcius);
+        rbtnCelcius.setText("Celcius");
+        rbtnCelcius.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbtnCelciusItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,9 +168,9 @@ public class KonversiSuhuFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(hasilLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(29, 29, 29)
                         .addComponent(konversiButton)
-                        .addGap(145, 145, 145))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -100,34 +178,36 @@ public class KonversiSuhuFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel1))
                             .addComponent(inputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(17, 17, 17)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(rbtnCtoF)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rbtnFtoC))
-                            .addComponent(skalaTujuanComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(20, Short.MAX_VALUE))))
+                            .addComponent(rbtnFahrenheit)
+                            .addComponent(rbtnReamur))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbtnCelcius)
+                            .addComponent(rbtnKelvin))
+                        .addContainerGap(27, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(102, 102, 102)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(inputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(rbtnCtoF)
-                        .addComponent(rbtnFtoC)))
+                .addGap(105, 105, 105)
+                .addComponent(inputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(skalaAwalComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(skalaTujuanComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(25, 25, 25)
+                    .addComponent(jLabel1)
+                    .addComponent(rbtnFahrenheit)
+                    .addComponent(rbtnKelvin))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rbtnReamur)
+                    .addComponent(rbtnCelcius))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(konversiButton)
                     .addComponent(hasilLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -137,85 +217,58 @@ public class KonversiSuhuFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(186, Short.MAX_VALUE))
+                .addContainerGap(217, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void konversiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_konversiButtonActionPerformed
-try {
-        double inputSuhu = Double.parseDouble(inputTextField.getText());
-        String skalaAwal = (String) skalaAwalComboBox.getSelectedItem();
-        String skalaTujuan = (String) skalaTujuanComboBox.getSelectedItem();
-        double hasil = 0;
-
-        if ("Celcius".equals(skalaAwal) && "Fahrenheit".equals(skalaTujuan)) {
-                hasil = (inputSuhu * 9/5) + 32;
-            } else if ("Celcius".equals(skalaAwal) && "Kelvin".equals(skalaTujuan)) {
-                hasil = inputSuhu + 273.15;
-            } else if ("Celcius".equals(skalaAwal) && "Reamur".equals(skalaTujuan)) {
-                hasil = inputSuhu * 4/5;
-            } else if ("Fahrenheit".equals(skalaAwal) && "Celcius".equals(skalaTujuan)) {
-                hasil = (inputSuhu - 32) * 5/9;
-            } else if ("Fahrenheit".equals(skalaAwal) && "Kelvin".equals(skalaTujuan)) {
-                hasil = (inputSuhu - 32) * 5/9 + 273.15;
-            } else if ("Fahrenheit".equals(skalaAwal) && "Reamur".equals(skalaTujuan)) {
-                hasil = (inputSuhu - 32) * 4/9;
-            } else if ("Kelvin".equals(skalaAwal) && "Celcius".equals(skalaTujuan)) {
-                hasil = inputSuhu - 273.15;
-            } else if ("Kelvin".equals(skalaAwal) && "Fahrenheit".equals(skalaTujuan)) {
-                hasil = (inputSuhu - 273.15) * 9/5 + 32;
-            } else if ("Kelvin".equals(skalaAwal) && "Reamur".equals(skalaTujuan)) {
-                hasil = (inputSuhu - 273.15) * 4/5;
-            } else if ("Reamur".equals(skalaAwal) && "Celcius".equals(skalaTujuan)) {
-                hasil = inputSuhu * 5/4;
-            } else if ("Reamur".equals(skalaAwal) && "Fahrenheit".equals(skalaTujuan)) {
-                hasil = (inputSuhu * 9/4) + 32;
-            } else if ("Reamur".equals(skalaAwal) && "Kelvin".equals(skalaTujuan)) {
-                hasil = (inputSuhu * 5/4) + 273.15;
-            } else {
-                hasil = inputSuhu; // Jika skala awal dan tujuan sama
-            }
-        // Tambahkan rumus konversi lain sesuai skala yang dipilih
-
-        hasilLabel.setText("Hasil: " + hasil + " " + skalaTujuan);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Masukkan angka yang valid!", "Error", JOptionPane.ERROR_MESSAGE);
-    }        // TODO add your handling code here:
+        hitungSuhu();       // TODO add your handling code here:
     }//GEN-LAST:event_konversiButtonActionPerformed
 
     private void inputTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextFieldKeyTyped
-char c = evt.getKeyChar();
-    if (!Character.isDigit(c) && c != '.') {
-        evt.consume(); // Membatasi input hanya untuk angka dan titik desimal
-    }        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != '.') {
+            evt.consume(); // Membatasi input hanya untuk angka dan titik desimal
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_inputTextFieldKeyTyped
 
-    private void skalaTujuanComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skalaTujuanComboBoxActionPerformed
+    private void rbtnFahrenheitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnFahrenheitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_skalaTujuanComboBoxActionPerformed
+    }//GEN-LAST:event_rbtnFahrenheitActionPerformed
 
-    private void rbtnCtoFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnCtoFActionPerformed
-public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        if (rbtnCtoF.isSelected()) {
-            skalaAwalComboBox.setSelectedItem("Celcius");
-            skalaTujuanComboBox.setSelectedItem("Fahrenheit");
-        }
-    }
-});        // TODO add your handling code here:
-    }//GEN-LAST:event_rbtnCtoFActionPerformed
+    private void rbtnFahrenheitItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtnFahrenheitItemStateChanged
+        if (rbtnFahrenheit.isSelected())
+            hitungSuhu();        // TODO add your handling code here:
+    }//GEN-LAST:event_rbtnFahrenheitItemStateChanged
 
-    private void rbtnCtoFItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtnCtoFItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbtnCtoFItemStateChanged
+    private void rbtnReamurItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtnReamurItemStateChanged
+       if (rbtnReamur.isSelected())
+            hitungSuhu();      // TODO add your handling code here:
+    }//GEN-LAST:event_rbtnReamurItemStateChanged
+
+    private void rbtnKelvinItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtnKelvinItemStateChanged
+        if (rbtnKelvin.isSelected())
+            hitungSuhu();          // TODO add your handling code here:
+    }//GEN-LAST:event_rbtnKelvinItemStateChanged
+
+    private void rbtnCelciusItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtnCelciusItemStateChanged
+        if (rbtnCelcius.isSelected())
+            hitungSuhu();  
+    }//GEN-LAST:event_rbtnCelciusItemStateChanged
+
+    private void inputTextFieldCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_inputTextFieldCaretUpdate
+       if (inputTextField.getText().isEmpty()== false)
+           hitungSuhu();
+    }//GEN-LAST:event_inputTextFieldCaretUpdate
 
     /**
      * @param args the command line arguments
@@ -253,14 +306,16 @@ public void itemStateChanged(java.awt.event.ItemEvent evt) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel hasilLabel;
     private javax.swing.JTextField inputTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton konversiButton;
-    private javax.swing.JRadioButton rbtnCtoF;
-    private javax.swing.JRadioButton rbtnFtoC;
+    private javax.swing.JRadioButton rbtnCelcius;
+    private javax.swing.JRadioButton rbtnFahrenheit;
+    private javax.swing.JRadioButton rbtnKelvin;
+    private javax.swing.JRadioButton rbtnReamur;
     private javax.swing.JComboBox<String> skalaAwalComboBox;
-    private javax.swing.JComboBox<String> skalaTujuanComboBox;
     // End of variables declaration//GEN-END:variables
 }
